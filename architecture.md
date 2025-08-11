@@ -1,0 +1,7 @@
+- implemented async rag base based pipeline
+- in memory cache support
+- Fine tuning the LLM after certain number of repsonses
+- using vector db && ollama locall llm
+- chunking and embeddings done again make it more effiecint , batch size - 5000 , cleaned noise and irrelvant stuff
+- along with recursive search
+- Feedback taken and stored , along with that every qa-repsonse is stored for fine tune
