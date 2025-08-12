@@ -37,7 +37,7 @@ CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'chat_logs
 PROCESSED_LOG_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'chat_logs_processed.jsonl')
 
 # Fine-tuning parameters
-FINETUNE_THRESHOLD = 10  # Minimum number of new QA pairs to trigger fine-tuning
+FINETUNE_THRESHOLD = 5  # Minimum number of new QA pairs to trigger fine-tuning
 OUTPUT_DIR = "./llama3-finetuned-lora"
 
 
@@ -119,6 +119,17 @@ def main():
     """
     print("Starting fine-tuning process...")
 
+    # --- Pre-run validation ---
+    if not os.path.isdir(MODEL_NAME):
+        print("="*50)
+        print(f"ERROR: Model path not found at '{MODEL_NAME}'")
+        print("The MODEL_NAME variable in this script must be set to the local file path")
+        print("of a Hugging Face model directory.")
+        print("For example, after downloading Llama-3-8B, you might set it to './Meta-Llama-3-8B'.")
+        print("Please download the model and update the path.")
+        print("="*50)
+        return # Exit the main function
+
     qa_pairs = load_new_qa_pairs()
     print(f"Found {len(qa_pairs)} new high-quality QA pairs.")
 
@@ -171,8 +182,7 @@ def main():
         optim="paged_adamw_32bit",
         lr_scheduler_type="cosine",
         save_strategy="epoch",
-        report_to="none",
-        fp16= (DEVICE == "cuda"), # fp16 is for CUDA
+        # bf16=False, # Set to True if your hardware supports it
         # bf16=False, # Set to True if your hardware supports it
     )
 

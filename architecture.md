@@ -31,3 +31,16 @@ I will provide a new script to handle this merging process.
 Step 1: Create the Merge Script
 I will create a new file, src/rag/merge_lora_weights.py, that will combine the base model and your LoRA
 adapter.
+
+✦ Step 2: Your Full Workflow
+Here is your complete, end-to-end process:
+
+1.  Fine-Tune: Run the training script as before.
+    1 python src/rag/finetune_llama3.py
+2.  Merge: After training is complete, run the new merge script.
+    1 python src/rag/merge_lora_weights.py
+3.  Import to Ollama: Create a file named Modelfile in your project root with this line:
+    1 FROM ./llama3-finetuned-merged
+    Then, run the Ollama create command:
+    1 ollama create my-custom-llama3 -f Modelfile
+4.  Run: You can now run your personalized model in Ollama!

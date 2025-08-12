@@ -15,6 +15,17 @@ LORA_ADAPTER_PATH = "./llama3-finetuned-lora"
 MERGED_MODEL_OUTPUT_PATH = "./llama3-finetuned-merged"
 
 # --- Merge Process ---
+
+# --- Pre-run validation ---
+if not os.path.isdir(BASE_MODEL_PATH):
+    print("="*50)
+    print(f"ERROR: Base model path not found at '{BASE_MODEL_PATH}'")
+    print("The BASE_MODEL_PATH variable in this script must be set to the local file path")
+    print("of your original Hugging Face model directory.")
+    print("Please update the path and try again.")
+    print("="*50)
+    exit() # Exit the script
+
 print(f"Loading base model from: {BASE_MODEL_PATH}")
 base_model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL_PATH,
